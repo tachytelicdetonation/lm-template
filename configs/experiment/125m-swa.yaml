@@ -1,0 +1,14 @@
+# @package _global_
+defaults:
+  - override /training: pretrain-125m
+  - override /model: 125m
+  - _self_
+
+training:
+  exp_name: pretrain-125m-swa
+
+model:
+  seq_modeling_block: SWA
+  force_flash: True
+  sliding_window_size: 1024
+  rope_theta: 500000

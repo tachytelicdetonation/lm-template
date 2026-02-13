@@ -1,0 +1,20 @@
+# @package _global_
+defaults:
+  - override /backend: gpu
+  - _self_
+
+deploy_paths:
+  data:
+    dclm_filter_8k: ???
+  checkpoint: ${training.checkpoint_path}
+
+backend:
+  distributed: false
+  num_processes: 1
+  process_id: 0
+  num_devices: 8
+
+hydra:
+  mode: RUN
+  launcher:
+    _target_: hydra._internal.core_plugins.basic_launcher.BasicLauncher

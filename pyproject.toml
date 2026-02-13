@@ -1,0 +1,47 @@
+[project]
+name = "lm-template"
+version = "0.1.0"
+description = "General-purpose JAX/Equinox language model research template"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "chex>=0.1.87",
+  "einops>=0.8.0",
+  "equinox>=0.11.12",
+  "grain>=0.2.7",
+  "hydra-core>=1.3.2",
+  "hydra-submitit-launcher>=1.2.0",
+  "jax[cuda12]<0.6",
+  "jaxtyping>=0.2.36",
+  "numpy>=2.0",
+  "optax>=0.2.4",
+  "orbax-checkpoint>=0.11.13",
+  "tqdm>=4.67.1",
+  "wandb>=0.19",
+  "zarr>=3.0.4",
+]
+
+[project.scripts]
+train = "lm.train:main"
+
+[tool.setuptools.packages.find]
+include = ["lm", "hydra_plugins"]
+
+[tool.uv]
+package = true
+default-groups = ["dev"]
+
+[dependency-groups]
+dev = ["ruff>=0.8"]
+
+[tool.ruff]
+line-length = 160
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "UP", "I", "ARG"]
+ignore = [
+  "E731",  # Do not assign a lambda expression, use a def
+  "F722",  # Errors for jaxtyping syntax
+  "E722",  # Do not use bare 'except'
+  "E741",  # Ambiguous variable name
+]

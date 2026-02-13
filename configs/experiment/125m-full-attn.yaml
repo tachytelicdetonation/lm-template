@@ -1,0 +1,13 @@
+# @package _global_
+defaults:
+  - override /training: pretrain-125m
+  - override /model: 125m
+  - _self_
+
+training:
+  exp_name: pretrain-125m-full-attn
+
+model:
+  seq_modeling_block: self_attention
+  force_flash: True
+  rope_theta: 500000

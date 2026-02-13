@@ -1,0 +1,31 @@
+# @package _global_
+defaults:
+  - override /hydra/launcher: submitit_slurm_lm
+  - override /backend: gpu
+  - _self_
+
+deploy_paths:
+  data:
+    dclm_filter_8k: ???
+  checkpoint: ${training.checkpoint_path}
+
+# Args found here: https://hydra.cc/docs/plugins/submitit_launcher/
+# Can be overriden with additional argument, for instance `hydra.launcher.nodes=4` or `hydra.launcher.gpus_per_task=8`.
+hydra:
+  mode: MULTIRUN
+  launcher:
+    name: lm_multi_node  # Can be removed to let hydra choose ${hydra.job.name}
+    partition: ???
+    tasks_per_node: 1
+    cpus_per_task: 100
+    nodes: ???
+    signal_delay_s: 300
+    max_num_timeout: 50
+    timeout_min: 3840
+    setup:
+      - "srun --export=UV_PROJECT_ENVIRONMENT=/tmp/ubuntu/uvenvs/lm-template,UV_CACHE_DIR=/tmp/ubuntu/.cache/uv,UV_PYTHON_BIN_DIR=/tmp/ubuntu/.cache/uv_bin,UV_PYTHON_INSTALL_DIR=/tmp/ubuntu/.cache/uv_python /remote/bin/uv sync --exact --quiet"
+    slurm_python: "/tmp/ubuntu/uvenvs/lm-template/bin/python"
+  job_logging:
+    handlers:
+      file:
+        filename: ${hydra.runtime.output_dir}/${hydra.job.name}_${oc.env:SLURMD_NODENAME}.log
