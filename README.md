@@ -1,5 +1,17 @@
 # LM Research Template
 
+## Scope and starting point
+
+This template extracts general language-model infrastructure from TTT-E2E:
+configuration, data loading, checkpointing, and distributed execution. It is a
+starting point for experiments, not a report of a new model or a reproduced
+benchmark. The current dependency configuration targets CUDA 12; it is not a
+ready-to-run Apple Silicon setup.
+
+Start with the dummy-data command below to inspect the training path before
+configuring a real dataset. Review the deployment paths and hardware requirements
+before running it. Published multi-node results are not included here.
+
 General-purpose JAX/Equinox language model research template. Based on the infrastructure from [End-to-End Test-Time Training](https://arxiv.org/abs/2512.23675), stripped down to a clean, extensible starting point for LM experiments.
 
 ## Features
@@ -25,6 +37,14 @@ General-purpose JAX/Equinox language model research template. Based on the infra
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+After installing `uv`, clone and install the project on the target CUDA host:
+
+```bash
+git clone https://github.com/tachytelicdetonation/lm-template.git
+cd lm-template
+uv sync
 ```
 
 ### Dataset
